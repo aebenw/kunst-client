@@ -1,23 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const url = "http://localhost:3000"
+  const url = "http://localhost:3000";
 
-  const welcomeDiv = document.getElementById("welcome")
-  const profileDiv = document.getElementById("profile")
-  const allPaintingDiv = document.getElementById("allPaintings")
+  const welcomeDiv = document.getElementById("welcome");
 
-  const signInForm = document.getElementById('signInForm')
-  const signUpForm = document.getElementById("signUpForm")
-  const signUpButton = document.querySelector("#signUpButton")
-  const signInButton = document.querySelector("#signInButton")
-  const signUpModal = document.querySelector("#signUpModal")
-  const signInModal = document.querySelector("#signInModal")
-  const signUpClose = document.querySelector("#signUpClose")
-  const signInClose = document.querySelector("#signInClose")
+  const profileDiv = document.getElementById("profile");
+  const profileCardDeck = document.createElement('div');
+  profileCardDeck.setAttribute("class", "card-columns");
+  profileDiv.append(profileCardDeck);
 
-  const homeBtn = document.getElementById("homeBtn")
-  const allBtn = document.getElementById("allBtn")
-  const navbar = document.getElementById("navbar")
+  const allPaintingDiv = document.getElementById("allPaintings");
+  const allCardDeck = document.createElement('div');
+  allCardDeck.setAttribute("class", "card-columns");
+  allPaintingDiv.append(allCardDeck);
+
+  const noPaintings = document.getElementById("no-message")
+
+
+
+  const signInForm = document.getElementById('signInForm');
+  const signUpForm = document.getElementById("signUpForm");
+  const signUpButton = document.querySelector("#signUpButton");
+  const signInButton = document.querySelector("#signInButton");
+  const signUpModal = document.querySelector("#signUpModal");
+  const signInModal = document.querySelector("#signInModal");
+  const signUpClose = document.querySelector("#signUpClose");
+  const signInClose = document.querySelector("#signInClose");
+
+  const homeBtn = document.getElementById("homeBtn");
+  const allBtn = document.getElementById("allBtn");
+  const navbar = document.getElementById("navbar");
 
 
   let imgMatrix = document.getElementById("imgMatrix")
@@ -80,6 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
     signInForm.name.value = ""
   })
 
+  function addEmptyText(){
+    if(profileCardDeck.childElementCount === 0){
+      noPaintings.innerHTML = "<center>Choose Some Paintings for your Profile</center>";
+    } else {
+      noPaintings.innerHTML = ""
+    }
+  }
 
   function getUser(name){
     fetch(url+ `/users/${name}`)
@@ -111,8 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     userName.innerText = `Welcome ${user.name}`
 
     if (user.paintings.length !== 0){
-      let cardDeck = document.createElement('div')
-      cardDeck.setAttribute("class", "card-columns")
       user.paintings.forEach(painting => {
         imgMatrix.display = "block"
 //PARENT ELEMENT//
@@ -166,19 +183,15 @@ document.addEventListener("DOMContentLoaded", () => {
         paintingCard.append(paintingImg)
         paintingCard.setAttribute("name", painting.id)
 
-        cardDeck.append(paintingCard)
+        profileCardDeck.append(paintingCard)
 
       })
-      profileDiv.append(cardDeck)
-
-    } else {
-      let noPaintings = document.createElement("h3")
-      noPaintings.innerText = "Choose Some Paintings for your Profile"
-      profileDiv.append(noPaintings)
-
-      }
-      removeUserPaintings()
-
+    }
+    addEmptyText()
+    if (profileCardDeck.childElementCount === 0){
+      addEmptyText()
+    }
+    removeUserPaintings()
   }
 
 
@@ -192,14 +205,8 @@ getAllPaintings()
 
 function renderAllPaintings(data){
 
-  const allPaintings = document.getElementById("allPaintings")
-  let cardDeck = document.createElement('div')
-  cardDeck.setAttribute("class", "card-columns")
-
   data.forEach(painting => {
-    // if (cardDeck.childElementCount === 3){
-    //   cardDeck = document.createElement('div')
-    // }
+  if (painting.img_url){
   let paintingCard = document.createElement('div')
   paintingCard.setAttribute("class", "card")
   paintingCard.setAttribute("style", "width: 18rem;")
@@ -247,18 +254,18 @@ function renderAllPaintings(data){
 
 
 
-  cardDeck.append(paintingCard)
+  allCardDeck.append(paintingCard)
+  }
 })
-  allPaintings.append(cardDeck)
-let images = document.querySelectorAll("img[src='null']")
-// debugger
-images.forEach(img => img.remove())
 
   }
 
 function addToProfile(e){
 //---------------optomistic rendering-------------------//
   e.preventDefault()
+  if (profileCardDeck.childElementCount === 0){
+    addEmptyText()
+  }
   //------------ Create Matrix Btn -------------//
 
   let imageLink = e.target.parentElement.parentElement.parentElement.querySelector('img').src
@@ -291,14 +298,14 @@ function addToProfile(e){
 
 
 
-
-  profileDiv.append(newPainting)
+  profileCardDeck.insertBefore(newPainting, profileCardDeck.firstChild)
+  // profileCardDeck.append(newPainting)
 
 //------------ upload to db -----------------//
 
   let paintingId = e.target.name
   let userId = profileDiv.dataset.user
-
+  addEmptyText()
 
   body = {
 	"user_id": `${userId}`,
@@ -328,12 +335,16 @@ function deletePainting(e) {
 
   btnDiv.append(paintingBtn)
 
-
-  allPaintingDiv.append(newPainting)
+  allCardDeck.insertBefore(newPainting, allCardDeck.firstChild)
+  // allCardDeck.append(newPainting)
 
 
   let paintingId = e.target.name
   let userId = profileDiv.dataset.user
+
+  if (profileCardDeck.childElementCount === 0){
+    addEmptyText()
+  }
 
   body = {
 	"user_id": `${userId}`,
@@ -358,6 +369,7 @@ function makeUserPainting(body){
 }
 
 function deleteUserPainting(body){
+
   fetch(url + "/user_paintings", {
     method: "DELETE",
     headers: {
@@ -377,7 +389,7 @@ function renderGallery(){
   }
 
   window.scrollTo(0,document.body.scrollHeight)
-  
+
   if (imgMatrix.querySelector('g')){
     var margin = {top: 50, right: 280, bottom: 50, left: 280},
         width = 960 - margin.left - margin.right,
