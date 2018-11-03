@@ -369,6 +369,7 @@ function deleteUserPainting(body){
 
 }
 
+
 function renderGallery(){
 
   if (imgMatrix.style.display === "none"){
