@@ -109,7 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let userName = document.getElementById("name")
     userName.innerText = `Welcome ${user.name}`
+
     if (user.paintings.length !== 0){
+      let cardDeck = document.createElement('div')
+      cardDeck.setAttribute("class", "card-columns")
       user.paintings.forEach(painting => {
         imgMatrix.display = "block"
 //PARENT ELEMENT//
@@ -163,13 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
         paintingCard.append(paintingImg)
         paintingCard.setAttribute("name", painting.id)
 
-        profileDiv.append(paintingCard)
-
+        cardDeck.append(paintingCard)
 
       })
+      profileDiv.append(cardDeck)
+
     } else {
       let noPaintings = document.createElement("h3")
-      noPaintings.innerText = "Choose Some Paintings You Fancy Ass"
+      noPaintings.innerText = "Choose Some Paintings for your Profile"
       profileDiv.append(noPaintings)
 
       }
@@ -187,10 +191,15 @@ getAllPaintings()
 
 
 function renderAllPaintings(data){
+
   const allPaintings = document.getElementById("allPaintings")
+  let cardDeck = document.createElement('div')
+  cardDeck.setAttribute("class", "card-columns")
 
   data.forEach(painting => {
-
+    // if (cardDeck.childElementCount === 3){
+    //   cardDeck = document.createElement('div')
+    // }
   let paintingCard = document.createElement('div')
   paintingCard.setAttribute("class", "card")
   paintingCard.setAttribute("style", "width: 18rem;")
@@ -234,8 +243,13 @@ function renderAllPaintings(data){
   paintingCard.append(paintingImg)
   paintingCard.setAttribute("name", painting.id)
 
-  allPaintings.append(paintingCard)
+
+
+
+
+  cardDeck.append(paintingCard)
 })
+  allPaintings.append(cardDeck)
 let images = document.querySelectorAll("img[src='null']")
 // debugger
 images.forEach(img => img.remove())
@@ -360,7 +374,7 @@ function renderGallery(){
   if (imgMatrix.style.display === "none"){
     imgMatrix.style.display= "block"
   }
-
+  window.scrollTo(0,document.body.scrollHeight)
   if (imgMatrix.querySelector('g')){
     var margin = {top: 50, right: 280, bottom: 50, left: 280},
         width = 960 - margin.left - margin.right,
