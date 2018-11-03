@@ -97,11 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify(body)
       }).then(res => res.json())
       .then(res => renderProfile(res))
-    //************** NEED TO FIGURE OUT HOW TO FIELD AN ERROR********************//
-    // .catch(function(){
-    //   debugger
-    //   console.log('Error:')
-    // })
   }
 
   function renderProfile(user){
@@ -366,11 +361,6 @@ function renderGallery(){
     imgMatrix.style.display= "block"
   }
 
-
-  // var imgMatrix = document.getElementById("imgMatrix")
-
-
-
   if (imgMatrix.querySelector('g')){
     var margin = {top: 50, right: 280, bottom: 50, left: 280},
         width = 960 - margin.left - margin.right,
@@ -420,36 +410,11 @@ function renderGallery(){
 
   var svgFlat = d3.select("#flat");
 
-
-  // d3.selectAll("svg")
-  // .append('g')
-  // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-// svgTransform.selectAll("g").filter(":last-child").append("image")
 svgTransform.select("g").filter(":last-child").append("image")
   .attr("xlink:href", `${event.target.name}`)
   .attr("width", width)
   .attr("height", height);
 
-  // svgTransform.selectAll('g').selectAll(".line--x")
-  //   .data(d3.range(0, width + 1, 4000))
-  // .enter().append("line")
-  //   .attr("class", "line line--x")
-  //   .attr("x1", function(d) { return d; })
-  //   .attr("x2", function(d) { return d; })
-  //   .attr("y1", 0)
-  //   .attr("y2", height);
-  //
-  // svgTransform.selectAll('g').selectAll(".line--y")
-  //   .data(d3.range(0, height + 1, 4000))
-  // .enter().append("line")
-  //   .attr("class", "line line--y")
-  //   .attr("x1", 0)
-  //   .attr("x2", width)
-  //   .attr("y1", function(d) { return d; })
-  //   .attr("y2", function(d) { return d; });
 
 var handle = svgFlat.select("g").selectAll(".handle")
         .data(targetPoints)
@@ -527,21 +492,6 @@ var svgFlat = d3.select("#flat");
     .attr("y1", function(d) { return d; })
     .attr("y2", function(d) { return d; });
 
-// var handle = svgFlat.select("g").selectAll(".handle")
-//         .data(targetPoints)
-//       .enter().append("circle")
-//         .attr("class", "handle")
-//         .attr("transform", function(d) { return "translate(" + d + ")"; })
-//         .attr("r", 7)
-//         .call(d3.behavior.drag()
-//           .origin(function(d) { return {x: d[0], y: d[1]}; })
-//           .on("drag", dragged));
-//
-//           d3.selectAll(".imgManipulator")
-//               .datum(function(d) { return JSON.parse(this.getAttribute("data-targets")); })
-//               .on("click", clicked)
-//               .call(transformed);
-
           function clicked(d) {
             d3.transition()
                 .duration(750)
@@ -592,9 +542,6 @@ function removeUserPaintings() {
     }
   })
 
-
 }
-
-
 
 })
