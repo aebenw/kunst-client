@@ -375,7 +375,9 @@ function renderGallery(){
   if (imgMatrix.style.display === "none"){
     imgMatrix.style.display= "block"
   }
+
   window.scrollTo(0,document.body.scrollHeight)
+  
   if (imgMatrix.querySelector('g')){
     var margin = {top: 50, right: 280, bottom: 50, left: 280},
         width = 960 - margin.left - margin.right,
