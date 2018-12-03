@@ -1,19 +1,10 @@
-//----------- DOM
+Welcome to Kunst
 
-- Field Errors on input of name
-- Figure out toggle for gallery
+This is a an art gallery app that allows you to see a painting as it would look like in a gallery space.
 
+You can choose from a list of paintings, add them to your user profile, then test it out inside of the gallery space.
 
-///---------- IMAGE MATRIX
+The image rendering and manipulation is accomplished with D3.
 
-- Can put multiple pics in the gallery
-- Get rid of grid?
-- Buttons to adapt to room
-- button to set a painting in its place
-- Save Rendering to backend (Active Storage)
-- User can upload pics of their own rooms
-- Handles show up in gallery on load
-
-//-----------SMALL LOGISTICS
-- Multiple Paintings to a profile?
-- Clean up Code
+A demo of the application can be found here:
+https://www.youtube.com/watch?v=IiEX0H9KfbI

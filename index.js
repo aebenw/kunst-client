@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const url = "http://localhost:3000";
+  const url = "http://localhost:3001";
 
   const welcomeDiv = document.getElementById("welcome");
 
